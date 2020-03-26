@@ -1,5 +1,11 @@
-var rgb = [255,0,0]
-var toolOpacity = [255,255,100,255,255]
+//rgb tones values
+const on = 255
+const off = 0
+//buttons opacity values
+const hiOp = 255
+const lowOp = 100
+var rgb = [on,off,off]
+var toolOpacity = [hiOp, hiOp, lowOp, hiOp, hiOp]
 var sizeConst
 var opacityConst
 
@@ -18,30 +24,30 @@ function draw() {
   //klean skreen
   stroke(0)
   strokeWeight(3)
-  fill(0, toolOpacity[0])
+  fill(off, toolOpacity[0])
   rect(620, 30, 60,40)
   //eraser
-  fill(255, toolOpacity[1])
+  fill(on, toolOpacity[1])
   rect(620, 100, 60, 40)
   //red color
-  fill(255,0,0, toolOpacity[2])
+  fill(on,off,off, toolOpacity[2])
   rect(620, 170, 60, 40)
   //green color
-  fill(0,255,0, toolOpacity[3])
+  fill(off,on,off, toolOpacity[3])
   rect(620, 240, 60, 40)
   //blue color
-  fill(0,0,255, toolOpacity[4])
+  fill(off,off,on, toolOpacity[4])
   rect(620, 310, 60, 40)
 
   //size modulator
   fill(0)
   rect(630, 400, 5, 170)
-  fill(255,255,0)
+  fill(on,on,off)
   rect(625, sizeMod(), 15, 10)
   //opacity modulator
   fill(0)
   rect(665, 400, 5, 170)
-  fill(255,0,255)
+  fill(on,off,on)
   rect(660, opacityMod(), 15, 10)
 
   //-------MENU ACXIONS---------
@@ -84,24 +90,25 @@ function draw() {
 //¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
 //reduce opacity of the tool button for indicate activeness
 function activeTool(toolIndex){
-  for(let i = 0; i < toolOpacity.length; i++){
-    if (toolOpacity[i] != 255){
-      toolOpacity[i] = 255
-    }
-  }
-  toolOpacity[toolIndex] = 100
+  cleanActives(toolOpacity, hiOp, lowOp)
+  toolOpacity[toolIndex] = lowOp
 }
 
 //select active rgb color or eraser
 function activeColor(rgbIndex){
-  for (let c = 0; c < rgb.length; c++){
-    if(rgb[c] == 255){
-      rgb[c] = 0
-    }
-  }
+  cleanActives(rgb, off, on)
 
   if (rgbIndex < 3){
-    rgb[rgbIndex] = 255
+    rgb[rgbIndex] = on
+  }
+}
+
+//reset actives for before activate anything else on an array 
+function cleanActives(arr, offValue, onValue){
+  for (let i = 0; i < arr.length; i++){
+    if (arr[i] == onValue){
+      arr[i] = offValue
+    }
   }
 }
 
